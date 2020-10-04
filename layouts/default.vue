@@ -3,27 +3,31 @@
     <v-app dark prominent app>
       <v-navigation-drawer
         v-model="drawer"
-        :mini-variant.sync="mini"
+        color="rgba(15,39,62,1);"
+        :mini-variant.sync="miniVariant"
         permanent
         :clipped="clipped"
         fixed
         app
-        color="rgba(15,39,62,1);"
         dark
         ><v-list-item class="px-2">
           <v-list-item-avatar>
-            <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+            <!-- <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img> -->
+            <v-icon>mdi-account-circle</v-icon>
           </v-list-item-avatar>
 
           <v-list-item-title>John Leider</v-list-item-title>
 
-          <v-btn icon @click.stop="mini = !mini">
+          <v-btn icon @click.stop="miniVariant = !miniVariant">
             <v-icon>mdi-chevron-left</v-icon>
           </v-btn>
         </v-list-item>
 
         <v-divider></v-divider>
         <!-- <naviList /> -->
+
+        <!-- To Do -->
+
         <template v-for="nav_list in nav_lists">
           <v-list-item
             v-if="!nav_list.lists"
@@ -33,12 +37,14 @@
             <v-list-item-icon>
               <v-icon>{{ nav_list.icon }}</v-icon>
             </v-list-item-icon>
+
             <v-list-item-content>
               <v-list-item-title>
                 {{ nav_list.name }}
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+
           <v-list-group
             v-else
             no-action
@@ -46,6 +52,9 @@
             :key="nav_list.name"
             v-model="nav_list.active"
           >
+            <template v-if="show"
+              ><span class="point"> <v-badge color="pink" dot></v-badge></span>
+            </template>
             <template v-slot:activator>
               <v-list-item-content>
                 <v-list-item-title>
@@ -60,20 +69,25 @@
             >
               <v-list-item-title>
                 {{ list.name }}
+                <template v-if="show"
+                  ><span class="alert"
+                    ><v-badge color="pink" content="3"></v-badge
+                  ></span>
+                </template>
               </v-list-item-title>
             </v-list-item>
           </v-list-group>
         </template>
       </v-navigation-drawer>
       <v-app-bar :clipped-left="clipped" fixed app>
-        <v-btn icon @click.stop="mini = !mini">
-          <v-icon>mdi-{{ `chevron-${mini ? "right" : "left"}` }}</v-icon>
+        <v-btn icon @click.stop="miniVariant = !miniVariant">
+          <v-icon>mdi-{{ `chevron-${miniVariant ? "right" : "left"}` }}</v-icon>
         </v-btn>
         <v-btn icon @click.stop="clipped = !clipped">
-          <v-icon>mdi-application</v-icon>
+          <v-icon>mdi-arrow-split-vertical</v-icon>
         </v-btn>
         <v-btn icon @click.stop="fixed = !fixed">
-          <v-icon>mdi-minus</v-icon>
+          <v-icon>mdi-arrow-split-horizontal</v-icon>
         </v-btn>
         <!-- <v-toolbar-title v-text="title" /> -->
         <v-spacer />
@@ -127,33 +141,7 @@ export default {
       clipped: false,
       drawer: true,
       fixed: false,
-      supports: [
-        {
-          name: "Consulting and suppourt",
-          icon: "mdi-vuetify",
-          link: "/consulting-and-support"
-        },
-        {
-          name: "Discord community",
-          icon: "mdi-discord",
-          link: "/discord-community"
-        },
-        {
-          name: "Report a bug",
-          icon: "mdi-bug",
-          link: "/report-a-bug"
-        },
-        {
-          name: "Github issue board",
-          icon: "mdi-github-face",
-          link: "/guthub-issue-board"
-        },
-        {
-          name: "Stack overview",
-          icon: "mdi-stack-overflow",
-          link: "/stack-overview"
-        }
-      ],
+      show: true,
       nav_lists: [
         {
           name: "ダッシュボード",
@@ -161,8 +149,29 @@ export default {
           link: "/"
         },
         {
-          name: "Getting Started",
-          icon: "mdi-speedometer",
+          name: "xxxxx",
+          icon: "mdi-bell",
+          link: "/"
+        },
+        {
+          name: "発注アラート",
+          icon: "mdi-bell",
+          active: false,
+          link: "/",
+          lists: [
+            {
+              name: "xxxxxxxxxxxx",
+              link: "/quick-start"
+            },
+            {
+              name: "Pre-made layouts",
+              link: "/pre-made-layouts"
+            }
+          ]
+        },
+        {
+          name: "発注アラート",
+          icon: "mdi-note-text-outline",
           active: false,
           link: "",
           lists: [
@@ -177,9 +186,36 @@ export default {
           ]
         },
         {
-          name: "Customization",
-          icon: "mdi-cogs",
-          link: "/customization"
+          name: "発注アラート",
+          icon: "mdi-book",
+          active: false,
+          link: "",
+          lists: [
+            {
+              name: "Quick Start",
+              link: "/quick-start"
+            },
+            {
+              name: "Pre-made layouts",
+              link: "/pre-made-layouts"
+            }
+          ]
+        },
+        {
+          name: "発注アラート",
+          icon: "mdi-bell",
+          active: false,
+          link: "",
+          lists: [
+            {
+              name: "Quick Start",
+              link: "/quick-start"
+            },
+            {
+              name: "Pre-made layouts",
+              link: "/pre-made-layouts"
+            }
+          ]
         },
         {
           name: "Styles & animations",
@@ -217,8 +253,7 @@ export default {
           link: "/preminum_themes"
         }
       ],
-      mini: true,
-      miniVariant: false,
+      miniVariant: true,
       right: true,
       rightDrawer: false,
       title: "Vuetify.js"
@@ -227,21 +262,31 @@ export default {
 };
 </script>
 <style scoped>
-.theme--dark.v-toolbar.v-sheet {
+.theme--light.v-toolbar.v-sheet {
   background-color: rgb(15, 39, 62);
   color: white;
 }
 
 .v-application a {
-    color: #00c58e;
+  color: #00c58e;
 }
 
 .theme--light.v-icon {
-    color: white;
+  color: white;
 }
 
 .v-application .primary--text {
-    color: white !important;
-    caret-color: #00c58e !important;
+  color: white !important;
+  caret-color: #00c58e !important;
+}
+
+.point {
+  inset: auto auto calc(100% - 2px) calc(100% - 2px);
+  margin-left: 29px;
+  margin-top: 0px;
+  margin-bottom: -28px;
+}
+.alert {
+  margin-left: 21px;
 }
 </style>
