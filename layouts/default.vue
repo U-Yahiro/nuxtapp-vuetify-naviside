@@ -24,10 +24,7 @@
         </v-list-item>
 
         <v-divider></v-divider>
-        <!-- <naviList /> -->
-
-        <!-- To Do -->
-
+        <naviList />
         <template v-for="nav_list in nav_lists">
           <v-list-item
             v-if="!nav_list.lists"
@@ -131,10 +128,12 @@
 
 <script>
 import Logo from "~/components/Logo";
+import naviList from "~/components/naviList";
 
 export default {
   components: {
-    Logo
+    Logo,
+    naviList
   },
   data() {
     return {
@@ -142,6 +141,7 @@ export default {
       drawer: true,
       fixed: false,
       show: true,
+      show: false,
       nav_lists: [
         {
           name: "ダッシュボード",
