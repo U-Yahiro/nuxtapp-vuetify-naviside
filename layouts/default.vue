@@ -24,7 +24,6 @@
         </v-list-item>
 
         <v-divider></v-divider>
-        <naviList />
         <template v-for="nav_list in nav_lists">
           <v-list-item
             v-if="!nav_list.lists"
@@ -128,21 +127,17 @@
 
 <script>
 import Logo from "~/components/Logo";
-import naviList from "~/components/naviList";
+import { ref } from '@vue/composition-api'
 
-export default {
-  components: {
-    Logo,
-    naviList
-  },
-  data() {
-    return {
-      clipped: false,
-      drawer: true,
-      fixed: false,
-      show: true,
-      show: false,
-      nav_lists: [
+// (2) createComponentによるコンポーネントの作成
+export default ({
+  setup() {
+    // (3) refを使ったリアクティブ値の生成
+    const clipped = ref(false)
+    const drawer = ref(false)
+    const fixed = ref(false)
+    // (4) 型の明示
+    const nav_lists = ref([
         {
           name: "ダッシュボード",
           icon: "mdi-view-dashboard",
@@ -252,14 +247,25 @@ export default {
           icon: "mdi-vuetify",
           link: "/preminum_themes"
         }
-      ],
-      miniVariant: true,
-      right: true,
-      rightDrawer: false,
-      title: "Vuetify.js"
-    };
+    ])
+    const miniVariant = ref(false)
+    const right = ref(false)
+    const rightDrawer = ref(false)
+    const title = ref('Vuetify.js')
+
+    // (5) Template内で使うものだけまとめて返す
+    return {
+      clipped,
+      drawer,
+      fixed,
+      nav_lists,
+      miniVariant,
+      right,
+      rightDrawer,
+      title
+    }
   }
-};
+})
 </script>
 <style scoped>
 .theme--light.v-toolbar.v-sheet {

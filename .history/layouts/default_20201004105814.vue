@@ -230,15 +230,15 @@ export default {
 }
 
 .v-application a {
-    color: #00c58e;
+  color: #00c58e;
 }
 
 .theme--light.v-icon {
-    color: white;
+  color: white;
 }
 
 .v-application .primary--text {
-    color: whi !important;
-    caret-color: #3e0f0f !important;
+  color: white !important;
+  caret-color: #3e0f0f !important;
 }
 </style>
